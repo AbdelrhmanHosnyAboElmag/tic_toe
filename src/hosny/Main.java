@@ -1,7 +1,6 @@
 package hosny;
 
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -9,6 +8,8 @@ import java.util.Arrays;
 public class Main {
     static int  x_flag=0;
     public static void main(String[] args) {
+        final int[] counter_of_x = {0};
+        final int[] counter_of_o = {0};
         final byte[] p_counter = {2};
         String[] p1_array = {"Z", "Z", "Z", "z", "z", "z", "z", "z", "z", "z"};
         String[] p2_array = {"Z", "Z", "Z", "z", "z", "z", "z", "z", "z", "z"};
@@ -274,7 +275,9 @@ public class Main {
         H_show.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                check_H_o(p1_array,H_o,p2_array,H_x);
+                counter_of_x[0] =check_H_x(p2_array,H_x);
+                counter_of_o[0] =check_H_o(p1_array,H_o);
+                H_number.setText(counter_of_x[0]- counter_of_o[0]+">>H Total");
 
             }
         });
@@ -345,24 +348,82 @@ public class Main {
 
     }
 
-    public static void check_H_o( String[] p1_array, JTextField h_o,String[] p2_array,JTextField h_x) {//check row
-        int h_counter_o=8,h_counter_x=8;
-        if(p1_array[1].equalsIgnoreCase("x")||p1_array[3].equalsIgnoreCase("x")||p1_array[7].equalsIgnoreCase("x")||p1_array[9].equalsIgnoreCase("x")){
-            h_counter_o=h_counter_o-3;
-            h_o.setText(h_counter_o+">>o");
+    public static int check_H_x(String[] p2_array, JTextField h_x) {//check row
+        int counter=0;
+        int j = 2, k = 3;
+        for (int i = 1; i <= 7; i = i + 3) {
+            if (!p2_array[i].equalsIgnoreCase("y") && !p2_array[j].equalsIgnoreCase("y") && !p2_array[k].equalsIgnoreCase("y")) {
+                counter++;
+                h_x.setText(counter+">>H(x)");
+            }
+            j = j + 3;
+            k = k + 3;
         }
-        else {
-            h_counter_o=h_counter_o-2;
-            h_o.setText(h_counter_o+">>o");
+         j = 4;
+         k = 7;
+        for (int i = 1; i <= 3; i++) {
+            if (!p2_array[i].equalsIgnoreCase("y") && !p2_array[j].equalsIgnoreCase("y") && !p2_array[k].equalsIgnoreCase("y")) {
+                counter++;
+                h_x.setText(counter+">>H(x)");
+            }
+            j++;
+            k++;
         }
-        if(p2_array[1].equalsIgnoreCase("y")||p2_array[3].equalsIgnoreCase("y")||p2_array[7].equalsIgnoreCase("y")||p2_array[9].equalsIgnoreCase("y")){
-            h_counter_x=h_counter_x-3;
-            h_x.setText(h_counter_x+">>x");
+        j = 5;
+        k = 9;
+        int i = 1;
+
+        if (!p2_array[i].equalsIgnoreCase("y") && !p2_array[j].equalsIgnoreCase("y") && !p2_array[k].equalsIgnoreCase("y")) {
+            counter++;
+            h_x.setText(counter+">>H(x)");
         }
-        else {
-            h_counter_x=h_counter_x-2;
-            h_x.setText(h_counter_x+">>x");
+        //check another diagonal
+        i = 3;
+        k = 7;
+        if (!p2_array[i].equalsIgnoreCase("y") && !p2_array[j].equalsIgnoreCase("y") && !p2_array[k].equalsIgnoreCase("y")) {
+            counter++;
+            h_x.setText(counter+">>H(x)");
         }
+        return counter;
+    }
+
+    public static int check_H_o(String[] p1_array, JTextField h_o) {//check row
+        int counter=0;
+        int j = 2, k = 3;
+        for (int i = 1; i <= 7; i = i + 3) {
+            if (!p1_array[i].equalsIgnoreCase("x") && !p1_array[j].equalsIgnoreCase("x") && !p1_array[k].equalsIgnoreCase("x")) {
+                counter++;
+                h_o.setText(counter+">>H(o)");
+            }
+            j = j + 3;
+            k = k + 3;
+        }
+        j = 4;
+        k = 7;
+        for (int i = 1; i <= 3; i++) {
+            if (!p1_array[i].equalsIgnoreCase("x") && !p1_array[j].equalsIgnoreCase("x") && !p1_array[k].equalsIgnoreCase("x")) {
+                counter++;
+                h_o.setText(counter+">>H(o)");
+            }
+            j++;
+            k++;
+        }
+        j = 5;
+        k = 9;
+        int i = 1;
+
+        if (!p1_array[i].equalsIgnoreCase("x") && !p1_array[j].equalsIgnoreCase("x") && !p1_array[k].equalsIgnoreCase("x")) {
+            counter++;
+            h_o.setText(counter+">>H(o)");
+        }
+        //check another diagonal
+        i = 3;
+        k = 7;
+        if (!p1_array[i].equalsIgnoreCase("x") && !p1_array[j].equalsIgnoreCase("x") && !p1_array[k].equalsIgnoreCase("x")) {
+            counter++;
+            h_o.setText(counter+">>H(o)");
+        }
+        return counter;
     }
 
 }
